@@ -14,6 +14,7 @@ void MixRCCommands(double xInput, double yInput, double &motorInputs);
 double *motorInputs[2]; // motorInputs[0] - left motor, motorInputs[1] - right motor
 
 double ApplyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo);
+double RateParameterization(double placeholder);
 
 // setup runs only once
 void setup()
@@ -66,4 +67,11 @@ void MixRCCommands(double xInput, double yInput, double &motorInputs) {
         (0, 0) - bottom left corner and (100, 100) - top right corner
         (0, 0) - bottom middle/straight backwards and (100, 100) - top middle/straight forwards
     */
+}
+
+double RateParameterization(double placeholder) {
+/*
+Need to research FPV rates
+*/
+
 }
