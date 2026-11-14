@@ -3,42 +3,42 @@
     Hi! Hello! Git is Amazing - Peter
     test test test, hi!! - Tiffany
     test test test test test
-    Testing, testing - Carson
 */
 using namespace std;
 
 double NormalizeValue(double value);
 double applyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo);
 
-
 // setup runs only once
-void setup() {
-   
+void setup()
+{
 }
 
 // loop will run indefinitely
-void loop() {
-
+void loop()
+{
 }
-
-
 
 // Custom functions below this line -------------------------------------------------
 
-double NormalizeValue(double value) {
+double NormalizeValue(double value)
+{
     /*
     Forces a double into a range 1000.0 - 2000.0
     */
-    if(value < 1000) {
+    if (value < 1000)
+    {
         value = 1000;
     }
-    if(value > 2000) {
+    if (value > 2000)
+    {
         value = 2000;
     }
     return value;
 }
 
-double applyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo) {
+double applyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo)
+{
     /*
     Applies a rate profile to an input value.
     Args:
