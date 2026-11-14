@@ -3,7 +3,7 @@
     Hi! Hello! Git is Amazing - Peter
     test test test, hi!! - Tiffany
     test test test test test
-    testing - Sam
+    Testing, testing - Carson
 */
 using namespace std;
 
