@@ -8,6 +8,8 @@ using namespace std;
 
 double NormalizeValue(double value);
 double applyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo);
+void MixRCCommands(double xInput, double yInput, double &motorInputs);
+double *motorInputs[2]; // motorInputs[0] - left motor, motorInputs[1] - right motor
 
 
 // setup runs only once
@@ -47,4 +49,13 @@ double applyRateProfile(double inputValue, double maxRate, double centerSensitiv
     */
     double output = inputValue;
     return output;
+}
+
+void MixRCCommands(double xInput, double yInput, double &motorInputs) {
+    /*
+    x/yInput range: 0.0 - 100.0
+    Mapping:
+        (0, 0) - bottom left corner and (100, 100) - top right corner
+        (0, 0) - bottom middle/straight backwards and (100, 100) - top middle/straight forwards
+    */
 }
