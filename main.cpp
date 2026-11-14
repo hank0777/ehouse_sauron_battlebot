@@ -3,13 +3,13 @@
     Hi! Hello! Git is Amazing - Peter
     test test test, hi!! - Tiffany
     test test test test test
-    testing - Sam
+    Testing, testing - Carson
     42
 */
 using namespace std;
 
 double NormalizeValue(double value);
-double applyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo);
+double ApplyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo);
 
 // setup runs only once
 void setup()
@@ -27,6 +27,7 @@ double NormalizeValue(double value)
 {
     /*
     Forces a double into a range 1000.0 - 2000.0
+    Then puts the value into a range of 0.0 - 100.0
     */
     if (value < 1000)
     {
@@ -36,10 +37,12 @@ double NormalizeValue(double value)
     {
         value = 2000;
     }
+    value = (value - 1000) / 10;
+    
     return value;
 }
 
-double applyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo)
+double ApplyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo)
 {
     /*
     Applies a rate profile to an input value.
