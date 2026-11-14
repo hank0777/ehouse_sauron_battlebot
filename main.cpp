@@ -24,3 +24,15 @@ double NormalizeValue(double value) {
     }
     return value;
 }
+
+double applyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo) {
+    /*
+    Applies a rate profile to an input value.
+    Args:
+        inputValue: input value range 0.0 - 100.0
+    Returns:
+        output in range 0.0 - 100.0
+    */
+    double output = inputValue;
+    return output;
+}
