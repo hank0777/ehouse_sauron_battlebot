@@ -3,6 +3,8 @@
     Hi! Hello! Git is Amazing - Peter
     test test test, hi!! - Tiffany
     test test test test test
+    Testing, testing - Carson
+    42
 */
 using namespace std;
 
@@ -11,35 +13,41 @@ double applyRateProfile(double inputValue, double maxRate, double centerSensitiv
 void MixRCCommands(double xInput, double yInput, double &motorInputs);
 double *motorInputs[2]; // motorInputs[0] - left motor, motorInputs[1] - right motor
 
+double ApplyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo);
 
 // setup runs only once
-void setup() {
-   
+void setup()
+{
 }
 
 // loop will run indefinitely
-void loop() {
-
+void loop()
+{
 }
-
-
 
 // Custom functions below this line -------------------------------------------------
 
-double NormalizeValue(double value) {
+double NormalizeValue(double value)
+{
     /*
     Forces a double into a range 1000.0 - 2000.0
+    Then puts the value into a range of 0.0 - 100.0
     */
-    if(value < 1000) {
+    if (value < 1000)
+    {
         value = 1000;
     }
-    if(value > 2000) {
+    if (value > 2000)
+    {
         value = 2000;
     }
+    value = (value - 1000) / 10;
+    
     return value;
 }
 
-double applyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo) {
+double ApplyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo)
+{
     /*
     Applies a rate profile to an input value.
     Args:
