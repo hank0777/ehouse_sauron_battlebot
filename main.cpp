@@ -4,14 +4,25 @@
     test test test, hi!! - Tiffany
     test test test test test
 */
+using namespace std;
 
+double NormalizeValue(double value);
+double applyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo);
+
+
+// setup runs only once
 void setup() {
    
 }
 
+// loop will run indefinitely
 void loop() {
 
 }
+
+
+
+// Custom functions below this line -------------------------------------------------
 
 double NormalizeValue(double value) {
     /*
