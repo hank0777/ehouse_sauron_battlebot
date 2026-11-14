@@ -1,10 +1,6 @@
 /*
     Controls team PSU Ehouse Combat Robotics
-    Hi! Hello! Git is Amazing - Peter
-    test test test, hi!! - Tiffany
-    test test test test test
-    Testing, testing - Carsons
-    42
+
 */
 #include<cmath>
 
@@ -70,7 +66,7 @@ double RateProfile(double inputValue, double maxRate, double centerSensitivity, 
         }
     }
 
-    // keeps value of maxRate and inputValue in range [0,100]
+    // keeps value of maxRate, inputValue, and centerSensitivity in range [0,100]
     if((maxRate < 0) || (maxRate > 100)) {
         if(maxRate < 0) {
             maxRate = 0;
@@ -85,6 +81,14 @@ double RateProfile(double inputValue, double maxRate, double centerSensitivity, 
         }
         if (inputValue > 100) {
             inputValue = 100;
+        }
+    }
+    if((centerSensitivity < 0) || (centerSensitivity > 100)) {
+        if (centerSensitivity < 0) {
+            centerSensitivity = 0;
+        }
+        if (centerSensitivity > 100) {
+            centerSensitivity = 100;
         }
     }
 
