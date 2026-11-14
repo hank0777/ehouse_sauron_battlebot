@@ -8,7 +8,7 @@
 using namespace std;
 
 double NormalizeValue(double value);
-double applyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo);
+double ApplyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo);
 
 // setup runs only once
 void setup()
@@ -38,7 +38,7 @@ double NormalizeValue(double value)
     return value;
 }
 
-double applyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo)
+double ApplyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo)
 {
     /*
     Applies a rate profile to an input value.
