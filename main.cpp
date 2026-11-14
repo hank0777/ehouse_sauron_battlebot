@@ -6,15 +6,16 @@
     Testing, testing - Carsons
     42
 */
+#include<cmath>
+
 using namespace std;
 
+
 double NormalizeValue(double value);
-double applyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo);
+double RateProfile(double inputValue, double maxRate, double centerSensitivity, double expo);
 void MixRCCommands(double xInput, double yInput, double &motorInputs);
 double *motorInputs[2]; // motorInputs[0] - left motor, motorInputs[1] - right motor
 
-double ApplyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo);
-double RateParameterization(double placeholder);
 
 // setup runs only once
 void setup()
@@ -47,7 +48,7 @@ double NormalizeValue(double value)
     return value;
 }
 
-double ApplyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo)
+double RateProfile(double inputValue, double maxRate, double centerSensitivity, double expo)
 {
     /*
     Applies a rate profile to an input value.
@@ -56,7 +57,41 @@ double ApplyRateProfile(double inputValue, double maxRate, double centerSensitiv
     Returns:
         output in range 0.0 - 100.0
     */
-    double output = inputValue;
+    double expoMult;
+    double output;
+
+    // keeps value of expo in range [0,1]
+    if((expo < 0) || (expo > 1)) {
+        if(expo < 0) {
+            expo = 0;
+        }
+        if(expo > 1) {
+            expo = 1;
+        }
+    }
+
+    // keeps value of maxRate and inputValue in range [0,100]
+    if((maxRate < 0) || (maxRate > 100)) {
+        if(maxRate < 0) {
+            maxRate = 0;
+        }
+        if(maxRate > 100) {
+            maxRate = 100;
+        }
+    }
+    if((inputValue < 0) || (inputValue > 100)) {
+        if (inputValue < 0) {
+            inputValue = 0;
+        }
+        if (inputValue > 100) {
+            inputValue = 100;
+        }
+    }
+
+    
+    expoMult = (expo * pow(inputValue,5) + (1-expo)*inputValue);
+    output = (centerSensitivity* inputValue) +(maxRate - centerSensitivity)*abs(inputValue)*expoMult;
+
     return output;
 }
 
@@ -67,11 +102,4 @@ void MixRCCommands(double xInput, double yInput, double &motorInputs) {
         (0, 0) - bottom left corner and (100, 100) - top right corner
         (0, 0) - bottom middle/straight backwards and (100, 100) - top middle/straight forwards
     */
-}
-
-double RateParameterization(double placeholder) {
-/*
-Need to research FPV rates
-*/
-
 }
