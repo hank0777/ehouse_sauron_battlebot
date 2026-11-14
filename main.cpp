@@ -8,7 +8,8 @@
 using namespace std;
 
 double NormalizeValue(double value);
-double applyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo);
+double ApplyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo);
+double RateParameterization(double placeholder);
 
 // setup runs only once
 void setup()
@@ -38,7 +39,7 @@ double NormalizeValue(double value)
     return value;
 }
 
-double applyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo)
+double ApplyRateProfile(double inputValue, double maxRate, double centerSensitivity, double expo)
 {
     /*
     Applies a rate profile to an input value.
@@ -49,4 +50,11 @@ double applyRateProfile(double inputValue, double maxRate, double centerSensitiv
     */
     double output = inputValue;
     return output;
+}
+
+double RateParameterization(double placeholder) {
+/*
+Need to research FPV rates
+*/
+
 }
