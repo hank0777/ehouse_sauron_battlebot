@@ -25,6 +25,18 @@ void setup()
 // loop will run indefinitely
 void loop()
 {
+    // 1. Get control data from AlfredoCRSF
+
+    // 2. Basic Control Logic: if (armed), if radio connected, etc
+
+    // 3. Call Normalize Value on the X and Y stick inputs for drive
+
+    // 4. Send Inputs to MixRCCommands
+
+    // 5. Apply Rate Profile to the motor inputs
+
+    // 6. Send motor inputs to AlfredoDSHOT
+    
 }
 
 // Custom functions below this line -------------------------------------------------
