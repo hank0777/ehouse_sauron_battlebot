@@ -26,6 +26,7 @@ double NormalizeValue(double value)
 {
     /*
     Forces a double into a range 1000.0 - 2000.0
+    Then puts the value into a range of 0.0 - 100.0
     */
     if (value < 1000)
     {
@@ -35,6 +36,8 @@ double NormalizeValue(double value)
     {
         value = 2000;
     }
+    value = (value - 1000) / 10;
+    
     return value;
 }
 
