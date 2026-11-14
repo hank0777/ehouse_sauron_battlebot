@@ -61,12 +61,18 @@ double RateProfile(double inputValue, double maxRate, double centerSensitivity, 
     /*
     Applies a rate profile to an input value.
     Args:
-        inputValue: input value range 0.0 - 100.0
+        inputValue: input value range [0.0, 100.0]
     Returns:
-        output in range 0.0 - 100.0
+        output in range [0.0, 100.0]
+
+    Function:
+    https://www.desmos.com/calculator/xuywkbmlsd
+    y=C*x+(M-C)*abs(x)*(E*x^5+(1-E)*x)
     */
     double expoMult;
     double output;
+    // Transforms input to be in range of [-1.0, 1.0]
+    inputValue = (inputValue - 50) / 50;
 
     // keeps value of expo in range [0,1]
     if((expo < 0) || (expo > 1)) {
