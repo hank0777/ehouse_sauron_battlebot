@@ -10,17 +10,22 @@ using namespace std;
 double NormalizeValue(double value);
 double RateProfile(double inputValue, double maxRate, double centerSensitivity, double expo);
 void MixRCCommands(double xInput, double yInput, double &motorInputs);
-double *motorInputs[2]; // motorInputs[0] - left motor, motorInputs[1] - right motor
 
 
 // setup runs only once
 void setup()
 {
+    // initialize ports on ESP32
+    // ex. ponMode(pin, OUTPUT or INPUT) 
 }
 
 // loop will run indefinitely
 void loop()
 {
+    // space for declaring/ initializing variables and constants
+    double *motorInputs[2]; // motorInputs[0] - left motor, motorInputs[1] - right motor
+
+
     // 1. Get control data from AlfredoCRSF
 
     // 2. Basic Control Logic: if (armed), if radio connected, etc
@@ -30,7 +35,7 @@ void loop()
     // 4. Send Inputs to MixRCCommands
 
     // 5. Apply Rate Profile to the motor inputs
-
+    
     // 6. Send motor inputs to AlfredoDSHOT
     
 }
@@ -40,9 +45,11 @@ void loop()
 double NormalizeValue(double value)
 {
     /*
-    Forces a double into a range 1000.0 - 2000.0
-    Then puts the value into a range of 0.0 - 100.0
+    Forces a double into a range [1000.0, 2000.0]
+    Then puts the value into a range of [0.0, 100.0]
     */
+
+    // Forces a double into a range [1000.0, 2000.0]
     if (value < 1000)
     {
         value = 1000;
@@ -51,6 +58,8 @@ double NormalizeValue(double value)
     {
         value = 2000;
     }
+
+    // Puts the value into a range of [0.0, 100.0]
     value = (value - 1000) / 10;
     
     return value;
@@ -71,10 +80,8 @@ double RateProfile(double inputValue, double maxRate, double centerSensitivity, 
     */
     double expoMult;
     double output;
-    // Transforms input to be in range of [-1.0, 1.0]
-    inputValue = (inputValue - 50) / 50;
 
-    // keeps value of expo in range [0,1]
+    // keeps value of expo in range [0.0, 1.0]
     if((expo < 0) || (expo > 1)) {
         if(expo < 0) {
             expo = 0;
@@ -84,7 +91,7 @@ double RateProfile(double inputValue, double maxRate, double centerSensitivity, 
         }
     }
 
-    // keeps value of maxRate, inputValue, and centerSensitivity in range [0,100]
+    // keeps value of maxRate, inputValue, and centerSensitivity in range [0.0, 100.0]
     if((maxRate < 0) || (maxRate > 100)) {
         if(maxRate < 0) {
             maxRate = 0;
@@ -110,6 +117,8 @@ double RateProfile(double inputValue, double maxRate, double centerSensitivity, 
         }
     }
 
+    // Transforms input to be in range of [-1.0, 1.0]
+    inputValue = (inputValue - 50) / 50;
     
     expoMult = (expo * pow(inputValue,5) + (1-expo)*inputValue);
     output = (centerSensitivity* inputValue) +(maxRate - centerSensitivity)*abs(inputValue)*expoMult;
@@ -119,7 +128,7 @@ double RateProfile(double inputValue, double maxRate, double centerSensitivity, 
 
 void MixRCCommands(double xInput, double yInput, double &motorInputs) {
     /*
-    x/yInput range: 0.0 - 100.0
+    x/yInput range: [0.0, 100.0]
     Mapping:
         (0, 0) - bottom left corner and (100, 100) - top right corner
         (0, 0) - bottom middle/straight backwards and (100, 100) - top middle/straight forwards
