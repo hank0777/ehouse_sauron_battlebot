@@ -122,7 +122,10 @@ double RateProfile(double inputValue, double maxRate, double centerSensitivity, 
     
     expoMult = (expo * pow(inputValue,5) + (1-expo)*inputValue);
     output = (centerSensitivity* inputValue) +(maxRate - centerSensitivity)*abs(inputValue)*expoMult;
+    // output is now in a range -100, 100
 
+    //center output at 50
+    output = (output + 100)/2
     return output;
 }
 
