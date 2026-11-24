@@ -125,7 +125,7 @@ double RateProfile(double inputValue, double maxRate, double centerSensitivity, 
     // output is now in a range -100, 100
 
     //center output at 50
-    output = (output + 100)/2
+    output = (output + 100)/2;
     return output;
 }
 
