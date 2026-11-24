@@ -3,7 +3,17 @@ body { margin: 0 auto; padding: 20px; max-width: 1250px; color: #111; background
 h1 { margin: 0 0 8px; font-size: 1.65rem; }
 .intro { margin: 0 0 18px; }
 main { display: grid; grid-template-columns: minmax(0, 800px) minmax(280px, 350px); align-items: start; gap: 20px; }
-.arena-panel { min-width: 0; }
+.simulation-panel { display: flex; align-items: flex-start; gap: 16px; min-width: 0; }
+.mouse-panel { flex: 0 1 180px; min-width: 120px; }
+.mouse-panel .hint { margin-top: 8px; }
+#mouse-pad { position: relative; width: 100%; aspect-ratio: 1; border: 1px solid #000; background: #fff; cursor: crosshair; user-select: none; touch-action: none; }
+#mouse-pad::before, #mouse-pad::after { content: ""; position: absolute; pointer-events: none; }
+#mouse-pad::before { top: 50%; left: 0; width: 100%; border-top: 1px dashed #999; }
+#mouse-pad::after { left: 50%; top: 0; height: 100%; border-left: 1px dashed #999; }
+.pad-center, #pad-dot { position: absolute; z-index: 1; left: 50%; top: 50%; transform: translate(-50%, -50%); border-radius: 50%; pointer-events: none; }
+.pad-center { width: 13px; height: 13px; background: #fff; border: 1px solid #777; }
+#pad-dot { width: 12px; height: 12px; background: #111; }
+.arena-panel { flex: 1 1 0; min-width: 0; }
 #arena { display: block; width: 100%; height: auto; aspect-ratio: 1; border: 1px solid #000; background: white; }
 #arena text { font: 13px system-ui, sans-serif; }
 aside { display: grid; gap: 16px; min-width: 0; }
@@ -24,4 +34,9 @@ button { padding: 5px 10px; cursor: pointer; }
 @media (max-width: 780px) {
   body { padding: 12px; }
   main { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 440px) {
+  .simulation-panel { flex-wrap: wrap; }
+  .mouse-panel { flex: 0 0 160px; }
+  .arena-panel { flex: 1 1 100%; }
 }

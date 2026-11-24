@@ -9,8 +9,53 @@
 const $ = (id) => document.getElementById(id);
 const axisNames = ["CH1 X", "CH2 Y", "CH3 Z", "CH4 rotX", "CH5 rotY", "CH6 rotZ", "CH7 dial", "CH8 slider"];
 const keys = new Set();
+const mouse = {active: false, pointerId: null, right_x: 50, right_y: 50};
 let lastDevice = "";
 let busy = false;
+
+const mousePad = $("mouse-pad");
+const padDot = $("pad-dot");
+
+function moveMousePad(event) {
+  const rect = mousePad.getBoundingClientRect();
+  const x = Math.max(0, Math.min(1, (event.clientX - rect.left - mousePad.clientLeft) / mousePad.clientWidth));
+  const y = Math.max(0, Math.min(1, (event.clientY - rect.top - mousePad.clientTop) / mousePad.clientHeight));
+  padDot.style.left = `${x * 100}%`;
+  padDot.style.top = `${y * 100}%`;
+  mouse.right_x = x * 100;
+  mouse.right_y = (1 - y) * 100; // Up is 100, matching the inverted vertical radio axis.
+}
+
+function releaseMousePad() {
+  if (!mouse.active) return;
+  mouse.active = false;
+  mouse.pointerId = null;
+  mouse.right_x = 50;
+  mouse.right_y = 50;
+  padDot.style.left = "50%";
+  padDot.style.top = "50%";
+}
+
+mousePad.addEventListener("pointerdown", (event) => {
+  if (event.pointerType !== "mouse" || event.button !== 0 || mouse.active) return;
+  event.preventDefault();
+  mouse.active = true;
+  mouse.pointerId = event.pointerId;
+  mousePad.setPointerCapture(event.pointerId);
+  moveMousePad(event);
+});
+mousePad.addEventListener("pointermove", (event) => {
+  if (!mouse.active || event.pointerId !== mouse.pointerId) return;
+  if (!(event.buttons & 1)) { releaseMousePad(); return; }
+  moveMousePad(event);
+});
+mousePad.addEventListener("pointerup", (event) => {
+  if (event.pointerId === mouse.pointerId) releaseMousePad();
+});
+mousePad.addEventListener("pointercancel", (event) => {
+  if (event.pointerId === mouse.pointerId) releaseMousePad();
+});
+mousePad.addEventListener("lostpointercapture", releaseMousePad);
 
 function availablePads() {
   return Array.from(navigator.getGamepads?.() ?? []).filter(Boolean);
@@ -53,19 +98,30 @@ function normalized(axis, invert = false) {
 
 function channelsFrom(pad) {
   const channels = {left_x: 50, left_y: 50, right_x: 50, right_y: 50};
+  let active, source;
   if (pad) {
     // EdgeTX Classic AETR: CH1=Ail, CH2=Ele, CH3=Thr, CH4=Rud.
     channels.left_x = normalized(pad.axes[3] ?? 0);
     channels.right_x = normalized(pad.axes[0] ?? 0);
     channels.left_y = normalized(pad.axes[Number($("left-axis").value)] ?? 0, $("left-invert").checked);
     channels.right_y = normalized(pad.axes[Number($("right-axis").value)] ?? 0, $("right-invert").checked);
-    return {channels, active: true, source: "USB joystick"};
+    active = true;
+    source = "USB joystick";
+  } else {
+    const left = Number(keys.has("KeyW")) - Number(keys.has("KeyS"));
+    const right = Number(keys.has("ArrowUp")) - Number(keys.has("ArrowDown"));
+    channels.left_y = 50 + 50 * left;
+    channels.right_y = 50 + 50 * right;
+    active = Boolean(left || right);
+    source = "Keyboard";
   }
-  const left = Number(keys.has("KeyW")) - Number(keys.has("KeyS"));
-  const right = Number(keys.has("ArrowUp")) - Number(keys.has("ArrowDown"));
-  channels.left_y = 50 + 50 * left;
-  channels.right_y = 50 + 50 * right;
-  return {channels, active: Boolean(left || right), source: "Keyboard"};
+  if (mouse.active) {
+    channels.right_x = mouse.right_x;
+    channels.right_y = mouse.right_y;
+    active = true;
+    source = pad ? "USB joystick + mouse" : "Mouse + keyboard";
+  }
+  return {channels, active, source};
 }
 
 function display(state) {
@@ -108,7 +164,7 @@ window.addEventListener("keydown", (event) => {
   }
 });
 window.addEventListener("keyup", event => keys.delete(event.code));
-window.addEventListener("blur", () => keys.clear());
+window.addEventListener("blur", () => { keys.clear(); releaseMousePad(); });
 $("reset").addEventListener("click", async () => {
   const response = await fetch("/reset", {method: "POST"});
   if (response.ok) display(await response.json());
