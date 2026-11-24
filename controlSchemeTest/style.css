@@ -1,0 +1,27 @@
+* { box-sizing: border-box; }
+body { margin: 0 auto; padding: 20px; max-width: 1250px; color: #111; background: #fff; font: 16px/1.45 system-ui, sans-serif; }
+h1 { margin: 0 0 8px; font-size: 1.65rem; }
+.intro { margin: 0 0 18px; }
+main { display: grid; grid-template-columns: minmax(0, 800px) minmax(280px, 350px); align-items: start; gap: 20px; }
+.arena-panel { min-width: 0; }
+#arena { display: block; width: 100%; height: auto; aspect-ratio: 1; border: 1px solid #000; background: white; }
+#arena text { font: 13px system-ui, sans-serif; }
+aside { display: grid; gap: 16px; min-width: 0; }
+aside section { border: 1px solid #aaa; padding: 14px; }
+h2 { margin: 0 0 8px; font-size: 1.1rem; }
+p { margin: 7px 0; }
+.hint { color: #444; font-size: .9rem; }
+select, button { font: inherit; max-width: 100%; }
+#gamepad { display: block; width: 100%; margin: 4px 0 10px; }
+#raw-axes { overflow-wrap: anywhere; font-family: ui-monospace, monospace; }
+.axis-row { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin: 10px 0; }
+.axis-row > label:first-child { width: 92px; }
+.axis-row select { min-width: 115px; }
+.check { white-space: nowrap; }
+.values { display: grid; grid-template-columns: 1fr auto; gap: 5px 12px; margin: 12px 0; font-variant-numeric: tabular-nums; }
+.values strong { text-align: right; }
+button { padding: 5px 10px; cursor: pointer; }
+@media (max-width: 780px) {
+  body { padding: 12px; }
+  main { grid-template-columns: minmax(0, 1fr); }
+}

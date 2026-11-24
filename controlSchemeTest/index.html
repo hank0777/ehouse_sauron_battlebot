@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tank steering sandbox</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <h1>Tank steering sandbox</h1>
+  <p class="intro">Traditional tank mode: left stick up/down drives the left wheel; right stick up/down drives the right wheel. No mixing or rates yet.</p>
+  <main>
+    <section class="arena-panel" aria-label="Simulation arena">
+      <svg id="arena" viewBox="0 0 900 900" role="img" aria-label="Top-down tank simulation">
+        <defs><pattern id="grid" width="45" height="45" patternUnits="userSpaceOnUse">
+          <path d="M 45 0 L 0 0 0 45" fill="none" stroke="#e5e5e5" stroke-width="1" />
+        </pattern></defs>
+        <rect x="0" y="0" width="900" height="900" fill="white" />
+        <rect x="0" y="0" width="900" height="900" fill="url(#grid)" />
+        <g id="bot" transform="translate(260 250)">
+          <rect x="-48" y="-31" width="96" height="62" fill="white" stroke="black" stroke-width="2" />
+          <rect x="-43" y="-20" width="9" height="40" fill="#888" stroke="black" stroke-width="2" />
+          <rect x="34" y="-20" width="9" height="40" fill="#888" stroke="black" stroke-width="2" />
+          <path d="M 0 -24 V -4 M -7 -17 L 0 -24 L 7 -17" fill="none" stroke="black" stroke-width="2" />
+          <text id="left-label" x="-27" y="6" text-anchor="middle">0%</text>
+          <text id="right-label" x="27" y="6" text-anchor="middle">0%</text>
+        </g>
+        <rect x="1" y="1" width="898" height="898" fill="none" stroke="black" stroke-width="2" />
+      </svg>
+    </section>
+    <aside>
+      <section>
+        <h2>Controller</h2>
+        <p id="connection">Looking for USB joystick…</p>
+        <label for="gamepad">Controller device</label>
+        <select id="gamepad"></select>
+        <p class="hint">Power on the Pocket, connect its USB data port, select <strong>Joystick</strong>, then move a stick. Use desktop Chrome or Edge if it is not detected. Keyboard backup: W/S = left wheel; ↑/↓ = right wheel.</p>
+      </section>
+      <section>
+        <h2>Axes (USB joystick)</h2>
+        <p id="raw-axes" class="hint">Raw axes: no controller connected.</p>
+        <p class="hint">Classic EdgeTX with AETR typically places left vertical on CH3 / Z and right vertical on CH2 / Y. Change these if your radio model differs.</p>
+        <div class="axis-row"><label for="left-axis">Left vertical</label><select id="left-axis"></select><label class="check"><input id="left-invert" type="checkbox" checked> Invert</label></div>
+        <div class="axis-row"><label for="right-axis">Right vertical</label><select id="right-axis"></select><label class="check"><input id="right-invert" type="checkbox" checked> Invert</label></div>
+        <p class="hint">If up moves the wrong way, toggle Invert. The axis selectors show all USB axes exposed by the chosen device; move one stick at a time and watch the readings.</p>
+      </section>
+      <section>
+        <h2>Live values</h2>
+        <div class="values">
+          <span>Input source</span><strong id="source">—</strong>
+          <span>Left X / Y</span><strong id="left-stick">50.0 / 50.0</strong>
+          <span>Right X / Y</span><strong id="right-stick">50.0 / 50.0</strong>
+          <span>Left motor</span><strong id="left-motor">0.0%</strong>
+          <span>Right motor</span><strong id="right-motor">0.0%</strong>
+          <span>Heading</span><strong id="heading">0°</strong>
+        </div>
+        <button id="reset" type="button">Reset position</button>
+        <p class="hint">Simulated motor commands only. Nothing here talks to a battlebot or a motor controller.</p>
+      </section>
+    </aside>
+  </main>
+</body>
+</html>
